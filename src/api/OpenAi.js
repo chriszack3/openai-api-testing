@@ -11,8 +11,9 @@ const OpenAi = (req, res) => {
     axios.post('https://api.openai.com/v1/completions', {
         "model": "text-davinci-003",
         "prompt": prompt,
-        "max_tokens": 7,
-        "temperature": 0
+        "max_tokens": 500,
+        "temperature": 0.9,
+        "frequency_penalty": 1,
     }).then(({ data }) => {
         console.log(data);
 
