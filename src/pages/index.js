@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import axios from "axios"
+import moment from "moment"
 
 const Index = () => {
   const [prompt, setPrompt] = useState('')
@@ -16,36 +17,38 @@ const Index = () => {
       setHistory(storage)
     }
   }, [response])
- 
-  
 
   const onSubmit = async (e) => {
     e.preventDefault();
     axios.post(`/api/OpenAi`, {
       prompt: prompt
     }).then(response => {
-      console.log(response.data);
       //set response to state
       setResponse(response?.data);
       //log original prompt && response to local storage
       const timestamp = new Date().toISOString();
-      
       localStorage.setItem(timestamp, JSON.stringify({
         prompt: prompt,
         response: response?.data
         })
       )
-
     }).catch(err => {
       console.log(err);
     })
   }
+
+  history?.sort((rawA, rawB) => {
+    const a = JSON.parse(rawA)
+    const b = JSON.parse(rawB)
+    return b?.response?.created - a?.response?.created
+  })
   return (
     <main>
       <title>Home Page</title>
       <h1>Welcome to my Gatsby site!</h1>
       <form onSubmit={onSubmit}>
-        <input type="text" value={prompt} onChange={e => setPrompt(e.target.value)} />
+        <textarea type="text" value={prompt} onChange={e => setPrompt(e.target.value)} />
+        <button type="submit">Submit</button>
       </form>
       {
         response?.choices && response?.choices.map((item, index) => {
@@ -56,10 +59,26 @@ const Index = () => {
         })
       }
       {
-        history?.length > 0 && history.map((item, index) => {
+        history?.length > 0 && history.map((rawItem, index) => {
+          const item = JSON.parse(rawItem)
+          
+          const fromIsoDate = new Date(item?.response?.created * 1000)
+          const date = moment(fromIsoDate).fromNow()
+
+          const style = {
+            'width': '50%',
+            'margin': '0 auto',
+            'display': 'flex',
+            'flexDirection': 'column',
+          }
           return (
-            <div key={index}>
-              <p>{item}</p>
+            <div style={style} key={index}>
+              <h3>{index}</h3>
+                <p>{date}</p>
+                <p>{item?.response?.choices[0].text}</p>
+              <span>
+                {rawItem}
+              </span>
             </div>
           )
         })
