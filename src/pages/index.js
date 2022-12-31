@@ -4,6 +4,9 @@ import moment from "moment"
 
 const Index = () => {
   const [prompt, setPrompt] = useState('')
+  const [temperature, setTemperature] = useState(0)
+  const [max_tokens, setMaxTokens] = useState(500)
+  const [frequency_penalty, setFrequencyPenalty] = useState(0)
   const [response, setResponse] = useState([])
   const [history, setHistory] = useState([])
 
@@ -21,7 +24,10 @@ const Index = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     axios.post(`/api/OpenAi`, {
-      prompt: prompt
+      prompt: prompt,
+      temperature: temperature,
+      max_tokens: max_tokens,
+      frequency_penalty: frequency_penalty
     }).then(response => {
       //set response to state
       setResponse(response?.data);
@@ -29,6 +35,8 @@ const Index = () => {
       const timestamp = new Date().toISOString();
       localStorage.setItem(timestamp, JSON.stringify({
         prompt: prompt,
+        temperature: temperature,
+        frequency_penalty: frequency_penalty,
         response: response?.data
         })
       )
@@ -47,7 +55,10 @@ const Index = () => {
       <title>Home Page</title>
       <h1>Welcome to my Gatsby site!</h1>
       <form onSubmit={onSubmit}>
-        <textarea type="text" value={prompt} onChange={e => setPrompt(e.target.value)} />
+        <label>Prompt:</label><textarea type="text" value={prompt} onChange={e => setPrompt(e.target.value)} /><br />
+        <label>Temperature Slider: </label><input type="range" min="0" max=".9" step=".1" value={temperature} onChange={e => setTemperature(e.target.value)}></input><span>{temperature ?? 'Something went wrong'}</span><br />
+        <label>Max Tokens: </label><input type="number" min="1" max="500" value={max_tokens} onChange={e => setMaxTokens(e.target.value)} /><br />
+        <label>Frequency Penalty: </label><input type="number" min="-2" max="2" step=".1" value={frequency_penalty} onChange={e => setFrequencyPenalty(e.target.value)} /><br />
         <button type="submit">Submit</button>
       </form>
       {
