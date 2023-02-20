@@ -2,7 +2,7 @@ import axios from "axios";
 
 const OpenAi = (req, res) => {
     const body = req?.body
-    const prompt = body?.prompt && typeof body?.prompt === 'string' ? body?.prompt : 'invalid prompt'
+    const prompt = body?.prompt && typeof body?.prompt === 'string' ? body?.prompt + `###` : 'invalid prompt'
     const max_tokens = body?.max_tokens && typeof body?.max_tokens === 'number' && body?.max_tokens < 500 ? body?.max_tokens : 500
     const temperature = body?.temperature && typeof body?.temperature === 'number' && body?.temperature < 1 && body?.temperature >= 0 ? body?.temperature : 0
     const frequency_penalty = body?.frequency_penalty && typeof body?.frequency_penalty === 'number' && body?.frequency_penalty < 2 && body?.frequency_penalty >-2 ? body?.frequency_penalty : 0
@@ -23,8 +23,8 @@ const OpenAi = (req, res) => {
 
         res.status(200).send(data);
     }).catch(err => {
-        console.log(err);
-        res.status(500).send
+        console.log(err.response);
+        res.status(500).send(err)
     })
 }
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import axios from "axios"
 import moment from "moment"
+import { form, input, button, label, dropdown } from "./index.module.scss"
 
 const Index = () => {
   const [prompt, setPrompt] = useState('')
@@ -54,8 +55,8 @@ const Index = () => {
     <main>
       <title>Home Page</title>
       <h1>Welcome to my Gatsby site!</h1>
-      <form onSubmit={onSubmit}>
-        <label>Prompt:</label><textarea type="text" value={prompt} onChange={e => setPrompt(e.target.value)} /><br />
+      <form id={form} onSubmit={onSubmit}>
+        <label>Prompt:</label><textarea className={input} type="text" value={prompt} onChange={e => setPrompt(e.target.value)} /><br />
         <label>Temperature Slider: </label><input type="range" min="0" max=".9" step=".1" value={temperature} onChange={e => setTemperature(e.target.value)}></input><span>{temperature ?? 'Something went wrong'}</span><br />
         <label>Max Tokens: </label><input type="number" min="1" max="500" value={max_tokens} onChange={e => setMaxTokens(e.target.value)} /><br />
         <label>Frequency Penalty: </label><input type="number" min="-2" max="2" step=".1" value={frequency_penalty} onChange={e => setFrequencyPenalty(e.target.value)} /><br />
