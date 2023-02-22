@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { Link } from "gatsby"
 import axios from "axios"
 import moment from "moment"
 import "./index.module.scss"
@@ -54,11 +55,11 @@ const Index = () => {
   return (
     <main>
       <title>Home Page</title>
-      <h1>Interact with OpenAI Model Here</h1>
+      <h1>Interact with OpenAI Model Here or Tuning Visualizer <Link alt='tuningpage' to='/TuningVisualizer'>Here</Link></h1>
       <form onSubmit={onSubmit}>
         <label>Prompt:</label><textarea type="text" value={prompt} onChange={e => setPrompt(e.target.value)} /><br />
         <label>Temperature Slider: </label><input type="range" min="0" max=".9" step=".1" value={temperature} onChange={e => setTemperature(e.target.value)}></input><span>{temperature ?? 'Something went wrong'}</span><br />
-        <label>Max Tokens: </label><input type="number" min="1" max="500" value={max_tokens} onChange={e => setMaxTokens(e.target.value)} /><br />
+        <label>Max Tokens: </label><input type="number" min="1" max="1500" value={max_tokens} onChange={e => setMaxTokens(e.target.value)} /><br />
         <label>Frequency Penalty: </label><input type="number" min="-2" max="2" step=".1" value={frequency_penalty} onChange={e => setFrequencyPenalty(e.target.value)} /><br />
         <button type="submit">Submit</button>
       </form>
