@@ -6,11 +6,14 @@ import "./index.module.scss"
 
 const Index = () => {
   const [prompt, setPrompt] = useState('')
+  const [model, setModel] = useState('text-davinci-003')
   const [temperature, setTemperature] = useState(0)
   const [max_tokens, setMaxTokens] = useState(500)
   const [frequency_penalty, setFrequencyPenalty] = useState(0)
   const [response, setResponse] = useState([])
   const [history, setHistory] = useState([])
+
+  const [models, setModels] = useState(['text-davinci-003', 'davinci:ft-personal-2023-02-22-21-29-12'])
 
   useEffect(() => {
     if(localStorage?.length > 0) {
@@ -21,12 +24,18 @@ const Index = () => {
       }
       setHistory(storage)
     }
+    const getModelArr = async () => {
+      const modelsArr = await axios.get(`/api/ListModels`)
+      console.log(modelsArr)
+    }
+    Promise.all([getModelArr()])
   }, [response])
 
   const onSubmit = async (e) => {
     e.preventDefault();
     axios.post(`/api/OpenAi`, {
       prompt: prompt,
+      model: model, 
       temperature: temperature,
       max_tokens: max_tokens,
       frequency_penalty: frequency_penalty
@@ -58,6 +67,9 @@ const Index = () => {
       <h1>Interact with OpenAI Model Here or Tuning Visualizer <Link alt='tuningpage' to='/TuningVisualizer'>Here</Link></h1>
       <form onSubmit={onSubmit}>
         <label>Prompt:</label><textarea type="text" value={prompt} onChange={e => setPrompt(e.target.value)} /><br />
+        <label>Model: </label><select defaultValue={models?.[0] ?? 'text-davinci-003'} onClick={(e) => setModel(e?.target?.value)}>{
+          models?.length > 0 && models.map((model, index) => <option key={index}>{model}</option>)
+        }</select>
         <label>Temperature Slider: </label><input type="range" min="0" max=".9" step=".1" value={temperature} onChange={e => setTemperature(e.target.value)}></input><span>{temperature ?? 'Something went wrong'}</span><br />
         <label>Max Tokens: </label><input type="number" min="1" max="1500" value={max_tokens} onChange={e => setMaxTokens(e.target.value)} /><br />
         <label>Frequency Penalty: </label><input type="number" min="-2" max="2" step=".1" value={frequency_penalty} onChange={e => setFrequencyPenalty(e.target.value)} /><br />

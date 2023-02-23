@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { Link } from "gatsby"
 
 const TuningVisualizer = () => {
     const [prompt, setPrompt] = useState("")
@@ -14,7 +15,7 @@ const TuningVisualizer = () => {
 
     return(
         <div>
-            <h1>Tuning Visualizer</h1>
+            <h1>Tuning Visualizer Here or UX for Interacting with Models <Link alt='home' to='/'>Here</Link></h1>
             <div>
                 <h3>Add Prompt/Completion Here</h3>
                 <form onSubmit={(e) => e.preventDefault()}>
