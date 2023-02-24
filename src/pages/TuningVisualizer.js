@@ -42,7 +42,7 @@ const TuningVisualizer = () => {
                     {
                     compPrompPairs?.length > 0 && compPrompPairs.map(({ id, pairStr }) => (
                         <>
-                            <span key={id} id={id} onClick={(e) => handleSelectPair(e)}>{pairStr}</span>
+                            <span key={uuidv4()} id={id} onClick={(e) => handleSelectPair(e)}>{pairStr}</span>
                             <br />
                         </>
                     ))
