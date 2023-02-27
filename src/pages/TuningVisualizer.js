@@ -1,5 +1,5 @@
 import React from "react"
-import PromptCompPair from "../components/promptCompPair"
+import PromptCompPair from "../components/PromptCompPair"
 import { Link } from "gatsby"
 import { v4 as uuidv4 } from 'uuid';
 

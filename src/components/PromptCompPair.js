@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { Link } from "gatsby"
 import { v4 as uuidv4 } from 'uuid';
-import "./promptCompPair.module.scss"
+import "./PromptCompPair.module.scss"
 
 const PromptCompPair = () => {
     const [prompt, setPrompt] = useState("")
