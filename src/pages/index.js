@@ -13,7 +13,7 @@ const Index = () => {
   const [response, setResponse] = useState([])
   const [history, setHistory] = useState([])
 
-  const [models, setModels] = useState(['text-davinci-003', 'davinci:ft-personal-2023-02-22-21-29-12'])
+  const [models, setModels] = useState(['text-davinci-003', 'davinci:ft-personal-2023-02-24-01-59-15'])
 
   useEffect(() => {
     if(localStorage?.length > 0) {
