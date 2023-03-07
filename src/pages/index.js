@@ -13,7 +13,7 @@ const Index = () => {
   const [response, setResponse] = useState([])
   const [history, setHistory] = useState([])
 
-  const [models, setModels] = useState(['text-davinci-003', 'davinci:ft-personal-2023-02-24-01-59-15'])
+  const [models, setModels] = useState(['text-davinci-003', 'davinci:ft-personal-2023-03-05-20-30-55'])
 
   useEffect(() => {
     if(localStorage?.length > 0) {
@@ -24,11 +24,11 @@ const Index = () => {
       }
       setHistory(storage)
     }
-    const getModelArr = async () => {
-      const modelsArr = await axios.get(`/api/ListModels`)
-      console.log(modelsArr)
-    }
-    Promise.all([getModelArr()])
+    // const getModelArr = async () => {
+    //   const modelsArr = await axios.get(`/api/ListModels`)
+    //   console.log(modelsArr)
+    // }
+    // Promise.all([getModelArr()])
   }, [response])
 
   const onSubmit = async (e) => {
